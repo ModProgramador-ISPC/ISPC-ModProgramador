@@ -1,4 +1,51 @@
-from datos import lista_dispositivos
+from datos import lista_automatizaciones, lista_dispositivos
+
+def simular_ejecutar_automatizacion_log(nombre_usuario, automatizacion_nombre):
+    mensaje = f"☕ Automatización '{automatizacion_nombre}' ejecutada por {nombre_usuario}."
+    print("✅", mensaje)
+
+def consultar_automatizaciones_activas():
+    print("\n--- Automatizaciones Activas (Solo Admin) ---")
+    activas_encontradas = False
+    for i, auto in enumerate(lista_automatizaciones):
+        if auto.get("activa", False):
+            print(f"{i + 1}. {auto['nombre']} - Descripción: {auto.get('descripcion', 'Sin descripción')}")
+            activas_encontradas = True
+    if not activas_encontradas:
+        print("No hay automatizaciones activas en este momento.")    
+
+def activar_automatizacion_estandar(usuario):
+    print("\n--- Automatizaciones Disponibles para Ejecutar ---")
+    if not lista_automatizaciones:
+        print("No hay automatizaciones predefinidas disponibles.")
+        return
+
+    for i, auto in enumerate(lista_automatizaciones):
+        estado_activa = "(Activa por defecto)" if auto.get("activa", False) else "(Inactiva por defecto)"
+        print(f"{i + 1}. {auto['nombre']} {estado_activa} - {auto.get('descripcion', 'Sin descripción')}")
+
+    try:
+        seleccion = int(input("Seleccione el número de la automatización a ejecutar (0 para cancelar): "))
+        if seleccion == 0:
+            print("Ejecución de automatización cancelada.")
+            return
+
+        if 1 <= seleccion <= len(lista_automatizaciones):
+            automatizacion_seleccionada = lista_automatizaciones[seleccion - 1]
+            simular_ejecutar_automatizacion_log(usuario['usuario'], automatizacion_seleccionada['nombre'])
+            if automatizacion_seleccionada["funcion_asociada"] == "encender_luz_cocina_cafetera":
+                encender_luz_cocina_cafetera()
+            elif automatizacion_seleccionada["funcion_asociada"] == "apagar_dispositivos_al_salir":
+                apagar_dispositivos_al_salir()
+            elif automatizacion_seleccionada["funcion_asociada"] == "activar_modo_noche":
+                activar_modo_noche()
+            else:
+                print(f"✅ Automatización '{automatizacion_seleccionada['nombre']}' predefinida simulada para ejecución.")
+
+        else:
+            print("⚠️ Selección inválida. Por favor, ingrese un número de la lista.")
+    except ValueError:
+        print("⚠️ Entrada inválida. Por favor, ingrese un número.")
 
 def cambiar_estado(dispositivo, estado):
     for i, diccionario in enumerate(lista_dispositivos):
@@ -31,4 +78,13 @@ def encender_luz_cocina_cafetera():
     if no_encontrados:
         print(f"No se encontraron: {', '.join(no_encontrados)}")
 
+def apagar_dispositivos_al_salir():
+    print("🌙 Todos los dispositivos principales apagados.")
+    for disp in lista_dispositivos:
+        if disp["estado"]: 
+            print(apagar(disp["nombre"])) 
+    print("------------------------------------")
 
+def activar_modo_noche():
+    print("😴 Modo Noche activado. Luces tenues.")
+    print("----------------------------")    

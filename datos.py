@@ -4,3 +4,11 @@ lista_dispositivos = [
 ]
 
 lista_usuarios = []
+
+lista_automatizaciones = [
+    {
+        "nombre": "Encender cafetera y luz de cocina",
+        "funcion": "encender_luz_cocina_cafetera",
+        "activa": False
+    },
+]
