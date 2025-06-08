@@ -1,5 +1,5 @@
 from dispositivo import listar, buscar_dispositivos, agregar, eliminar
-from automatizaciones import activar_modo_noche, encender_luz_cocina_cafetera, apagar_dispositivos_al_salir, simular_ejecutar_automatizacion_log, apagar, consultar_automatizaciones_activas, encender
+from automatizaciones import activar_modo_noche, encender_luz_cocina_cafetera, apagar_dispositivos_al_salir, simular_ejecutar_automatizacion_log, apagar, consultar_automatizaciones_activas, encender, activar_automatizacion_estandar
 from usuarios import (
     registrar_usuario,
     iniciar_sesion,
@@ -30,7 +30,7 @@ def menu_usuario_estandar(usuario):
                     seleccion = int(input("Seleccione una automatización a activar: "))
                     if 1 <= seleccion <= len(lista_automatizaciones):
                         nombre = lista_automatizaciones[seleccion - 1]["nombre"]
-                        print(simular_ejecutar_automatizacion_log(nombre))
+                        print(simular_ejecutar_automatizacion_log(usuario["nombre"], nombre))
                     else:
                         print("Selección inválida.")
                 except ValueError:
