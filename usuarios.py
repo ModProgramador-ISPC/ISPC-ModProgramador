@@ -6,6 +6,7 @@ def registrar_usuario():
     telefono = input("Ingrese su número de telefono: ")
     dni = input("Ingrese su DNI: ")
     contraseña = input("Ingrese contraseña: ")
+    vivienda = input("Ingrese dirección: ")
 
     # Si es el primer usuario, será admin
     rol = "admin" if len(lista_usuarios) == 0 else "estandar"
@@ -21,7 +22,8 @@ def registrar_usuario():
         "dni": dni,
         "telefono": telefono, 
         "contraseña": contraseña,
-        "rol": rol
+        "rol": rol,
+        "vivienda": vivienda
     }
     lista_usuarios.append(nuevo_usuario)
     print(f"Usuario registrado con éxito. Rol asignado: {rol}")
@@ -45,6 +47,8 @@ def consultar_datos_personales(usuario):
     print(f"Telefono: {usuario['telefono']}")
     print(f"DNI: {usuario['dni']}")
     print(f"Rol: {usuario['rol']}")
+    print(f"Dirección: {usuario['vivienda']}")
+
 
 def cambiar_rol():
     if not lista_usuarios:
