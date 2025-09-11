@@ -1,5 +1,5 @@
 from dispositivo import listar, buscar_dispositivos, agregar, eliminar
-from automatizaciones import activar_modo_noche, encender_luz_cocina_cafetera, apagar_dispositivos_al_salir, simular_ejecutar_automatizacion_log, apagar, consultar_automatizaciones_activas, encender, activar_automatizacion_estandar
+from automatizaciones import activar_modo_noche, encender_luz_cocina_cafetera, apagar_dispositivos_al_salir, simular_ejecutar_automatizacion_log, apagar, consultar_automatizaciones_activas, encender, activar_automatizacion_estandar, activar_automatizacion, desactivar_automatizacion
 from usuarios import (
     registrar_usuario,
     iniciar_sesion,
@@ -30,7 +30,8 @@ def menu_usuario_estandar(usuario):
                     seleccion = int(input("Seleccione una automatización a activar: "))
                     if 1 <= seleccion <= len(lista_automatizaciones):
                         nombre = lista_automatizaciones[seleccion - 1]["nombre"]
-                        print(simular_ejecutar_automatizacion_log(usuario["nombre"], nombre))
+                        print(activar_automatizacion(nombre))
+                        #print(simular_ejecutar_automatizacion_log(usuario["nombre"], nombre))
                     else:
                         print("Selección inválida.")
                 except ValueError:
@@ -47,7 +48,8 @@ def menu_usuario_estandar(usuario):
                     seleccion = int(input("Seleccione una automatización a desactivar: "))
                     if 1 <= seleccion <= len(activas):
                         nombre = activas[seleccion - 1]["nombre"]
-                        print(apagar(nombre))
+                        print(desactivar_automatizacion(nombre))
+                        #print(apagar(nombre))
                     else:
                         print("Selección inválida.")
                 except ValueError:

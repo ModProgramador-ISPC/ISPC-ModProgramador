@@ -3,16 +3,17 @@ from datos import lista_automatizaciones, lista_dispositivos
 def simular_ejecutar_automatizacion_log(nombre_usuario, automatizacion_nombre):
     mensaje = f"☕ Automatización '{automatizacion_nombre}' ejecutada por {nombre_usuario}."
     print("✅", mensaje)
+    return mensaje
 
 def consultar_automatizaciones_activas():
+    activas = [a for a in lista_automatizaciones if a.get("activa", False)]
     print("\n--- Automatizaciones Activas (Solo Admin) ---")
-    activas_encontradas = False
-    for i, auto in enumerate(lista_automatizaciones):
-        if auto.get("activa", False):
+    if not activas:
+        print("No hay automatizaciones activas en este momento.")
+    else:
+        for i, auto in enumerate(activas):
             print(f"{i + 1}. {auto['nombre']} - Descripción: {auto.get('descripcion', 'Sin descripción')}")
-            activas_encontradas = True
-    if not activas_encontradas:
-        print("No hay automatizaciones activas en este momento.")    
+    return activas    
 
 def activar_automatizacion_estandar(usuario):
     print("\n--- Automatizaciones Disponibles para Ejecutar ---")
@@ -32,7 +33,8 @@ def activar_automatizacion_estandar(usuario):
 
         if 1 <= seleccion <= len(lista_automatizaciones):
             automatizacion_seleccionada = lista_automatizaciones[seleccion - 1]
-            simular_ejecutar_automatizacion_log(usuario['usuario'], automatizacion_seleccionada['nombre'])
+            simular_ejecutar_automatizacion_log(usuario['nombre'], automatizacion_seleccionada['nombre'])
+            automatizacion_seleccionada["activa"] = True
             if automatizacion_seleccionada["funcion_asociada"] == "encender_luz_cocina_cafetera":
                 encender_luz_cocina_cafetera()
             elif automatizacion_seleccionada["funcion_asociada"] == "apagar_dispositivos_al_salir":
@@ -88,3 +90,18 @@ def apagar_dispositivos_al_salir():
 def activar_modo_noche():
     print("😴 Modo Noche activado. Luces tenues.")
     print("----------------------------")    
+
+
+def activar_automatizacion(nombre):
+    for auto in lista_automatizaciones:
+        if auto["nombre"].lower() == nombre.lower():
+            auto["activa"] = True
+            return f"La automatización '{nombre}' fue activada."
+    return f"No se encontró la automatización '{nombre}'."
+
+def desactivar_automatizacion(nombre):
+    for auto in lista_automatizaciones:
+        if auto["nombre"].lower() == nombre.lower():
+            auto["activa"] = False
+            return f"La automatización '{nombre}' fue desactivada."
+    return f"No se encontró la automatización '{nombre}'."
