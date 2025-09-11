@@ -108,7 +108,11 @@ def menu_gestion_dispositivos():
                 print(buscar_dispositivos(nombre))
             case "3":
                 nombre = input("Agregue dispositivo: ").lower()
-                print(agregar(nombre))
+                ubicacion = input("Agregue ubicación del dispositivo: ").lower()
+                modelo = input("Agregue modelo del dispositivo: ").lower()
+                marca = input("Agregue marca del dispositivo: ").lower()
+
+                print(agregar(nombre, ubicacion, modelo, marca))
             case "4":
                 nombre = input("Ingrese nombre de dispositivo a eliminar: ").lower()
                 print(eliminar(nombre))
